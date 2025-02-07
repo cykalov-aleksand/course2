@@ -3,7 +3,6 @@ package pro.sky.java.course2.examinerservice.service;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
