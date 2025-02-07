@@ -20,13 +20,12 @@ public class JavaQuestionController {
     @ExceptionHandler(ExceptionIfAvailable.class)
     public ResponseEntity<String> noSuchProductHandler
             (ExceptionIfAvailable e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Такого вопроса в списке нет. Вопрос не удален ");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @GetMapping(path = "/remove")
     public Question remove(@RequestParam("question") String question, @RequestParam("answer") String answer) {
-        javaQuestionService.remove(question, answer);
-        return javaQuestionService.add(question, answer);
+       return javaQuestionService.remove(question, answer);
     }
 
     @GetMapping(path = "/add")

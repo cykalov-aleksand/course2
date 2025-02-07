@@ -6,23 +6,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import pro.sky.java.course2.examinerservice.exeption.ExceptionIfNoAvailable;
-import pro.sky.java.course2.examinerservice.service.ExamineServicelmpl;
+import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
+import pro.sky.java.course2.examinerservice.service.ExaminerServicelmpl;
 
 import java.util.Collection;
 
 @RestController
 public class ExamController {
-    private final ExamineServicelmpl examineServicelmpl;
+    private final ExaminerServicelmpl examineServicelmpl;
 
-    public ExamController(ExamineServicelmpl examineServicelmpl) {
+    public ExamController(ExaminerServicelmpl examineServicelmpl) {
         this.examineServicelmpl = examineServicelmpl;
     }
 
-    @ExceptionHandler(ExceptionIfNoAvailable.class)
+    @ExceptionHandler(ExceptionIfAvailable.class)
     public ResponseEntity<String> noNunberQuestion
-            (ExceptionIfNoAvailable e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("В хранилище нет такого количества вопросов повторите ввод.");
+            (ExceptionIfAvailable e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     @GetMapping("/exam/get/{amount}")

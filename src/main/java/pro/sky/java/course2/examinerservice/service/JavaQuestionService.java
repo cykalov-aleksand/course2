@@ -31,8 +31,12 @@ public class JavaQuestionService implements QuestionServices {
         String formQuestion = formString(question);
         String formAnswer = formString(answer);
         Optional<Question> first = (questions.stream()
-                .filter(o -> o.getQuestion().equalsIgnoreCase(formQuestion) || (o.getAnswer().equalsIgnoreCase(formAnswer))).findAny());
-        return first.orElseGet(() -> add(new Question(questions.size() + 1, formQuestion, answer)));
+                .filter(o -> o.getQuestion().equalsIgnoreCase(formQuestion)).findAny());
+        if (first.isPresent()) {
+            throw new ExceptionIfAvailable("Строка не введена, данный вопрос в списке присутствует:  " + first.get());
+        }
+
+        return first.orElseGet(() -> add(new Question(questions.size() + 1, formQuestion, formAnswer)));
     }
 
     public Question add(Question question) {
@@ -40,21 +44,25 @@ public class JavaQuestionService implements QuestionServices {
         return question;
     }
 
-    @Override
+    public Question remove(Question question) {
+        questions.remove(question);
+        return question;
+    }
+
     public Question remove(String question, String answer) {
         String formQuestion = formString(question);
-        Optional<Question> first = (questions.stream().filter(o -> formQuestion.equalsIgnoreCase(o.getQuestion())).findAny());
-        if (first.isPresent()) {
-            questions.remove(first.get());
-        } else {
-            first.orElseThrow(ExceptionIfAvailable::new);
-        }
+        String formAnswer = formString(answer);
+        Optional<Question> first = Optional.ofNullable(((questions.stream().filter(o -> formQuestion
+                .equalsIgnoreCase(o.getQuestion()) && ((o.getAnswer().equalsIgnoreCase(formAnswer)))).findAny())
+                .orElseThrow(() -> new ExceptionIfAvailable("Такого вопроса в списке нет. Вопрос не удален "))));
+        remove(first.get());
         return first.get();
     }
 
     public Collection<Question> getAll() {
         return questions;
     }
+
     public Question getRandomQuestion() {
         int i = 0;
         Random random = new Random();

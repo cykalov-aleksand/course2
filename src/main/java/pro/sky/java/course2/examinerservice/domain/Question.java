@@ -39,6 +39,13 @@ public class Question {
         return Objects.hashCode(question);
     }
 
-
+    @Override
+    public String toString() {
+        return "Question{" +
+                "number=" + number +
+                ", question='" + question + '\'' +
+                ", answer='" + answer + '\'' +
+                '}';
+    }
 }
 
