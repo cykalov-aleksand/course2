@@ -8,7 +8,7 @@ public class Question {
     private final String answer;
 
     public Question(int number, String question, String answer) {
-        this.number=number;
+        this.number = number;
         this.question = question;
         this.answer = answer;
     }

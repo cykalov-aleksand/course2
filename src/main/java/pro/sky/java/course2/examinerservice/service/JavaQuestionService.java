@@ -41,12 +41,12 @@ public class JavaQuestionService implements QuestionServices {
     }
 
     public Question add(Question question) {
-      questions.add(question);
-    return question;
+        questions.add(question);
+        return question;
     }
 
     public void remove(Question question) {
-       questions.remove(question);
+        questions.remove(question);
     }
 
     public Question remove(String question, String answer) {

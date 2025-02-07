@@ -17,6 +17,7 @@ public class JavaQuestionController {
     public JavaQuestionController(JavaQuestionService javaQuestionService) {
         this.javaQuestionService = javaQuestionService;
     }
+
     @ExceptionHandler(ExceptionIfAvailable.class)
     public ResponseEntity<String> noSuchProductHandler
             (ExceptionIfAvailable e) {
@@ -25,7 +26,7 @@ public class JavaQuestionController {
 
     @GetMapping(path = "/remove")
     public Question remove(@RequestParam("question") String question, @RequestParam("answer") String answer) {
-       return javaQuestionService.remove(question, answer);
+        return javaQuestionService.remove(question, answer);
     }
 
     @GetMapping(path = "/add")
