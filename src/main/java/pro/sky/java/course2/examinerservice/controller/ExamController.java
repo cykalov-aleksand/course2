@@ -29,4 +29,5 @@ public class ExamController {
     public Collection getQuestions(@PathVariable("amount") int amount) {
         return examineServicelmpl.getQuestions(amount);
     }
+
 }

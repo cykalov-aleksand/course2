@@ -43,4 +43,5 @@ public class JavaQuestionController {
     public Question getRandomQuestion() {
         return javaQuestionService.getRandomQuestion();
     }
+
 }

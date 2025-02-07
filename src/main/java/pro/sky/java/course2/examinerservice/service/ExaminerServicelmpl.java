@@ -27,5 +27,4 @@ public class ExaminerServicelmpl implements ExaminerService {
         }
         return setQuestion;
             }
-
 }

@@ -79,7 +79,6 @@ public class JavaQuestionService implements QuestionServices {
     public int getSizeQuestions() {
         return questions.size();
     }
-
     public String formString(String line) {
         StringBuilder stringBuilder = new StringBuilder(line);
         stringBuilder.deleteCharAt(0);
