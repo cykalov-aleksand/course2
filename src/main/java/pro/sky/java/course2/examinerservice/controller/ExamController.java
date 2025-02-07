@@ -24,10 +24,8 @@ public class ExamController {
             (ExceptionIfAvailable e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-
     @GetMapping("/exam/get/{amount}")
     public Collection getQuestions(@PathVariable("amount") int amount) {
-
         return examineServicelmpl.getQuestions(amount);
 
 

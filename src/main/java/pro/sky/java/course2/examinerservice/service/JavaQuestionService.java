@@ -5,13 +5,14 @@ import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class JavaQuestionService implements QuestionServices {
     private final Set<Question> questions;
 
     public JavaQuestionService(Set<Question> questions) {
-        this.questions = questions;
+        this.questions = new HashSet<>(questions);
     }
 
     @Override
@@ -40,13 +41,12 @@ public class JavaQuestionService implements QuestionServices {
     }
 
     public Question add(Question question) {
-        questions.add(question);
-        return question;
+      questions.add(question);
+    return question;
     }
 
-    public Question remove(Question question) {
-        questions.remove(question);
-        return question;
+    public void remove(Question question) {
+       questions.remove(question);
     }
 
     public Question remove(String question, String answer) {
@@ -60,7 +60,7 @@ public class JavaQuestionService implements QuestionServices {
     }
 
     public Collection<Question> getAll() {
-        return questions;
+        return questions.stream().collect(Collectors.toCollection(() -> new TreeSet<>(new NewComporator())));
     }
 
     public Question getRandomQuestion() {
