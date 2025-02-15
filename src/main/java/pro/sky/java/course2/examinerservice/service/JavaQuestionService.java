@@ -3,6 +3,7 @@ package pro.sky.java.course2.examinerservice.service;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,15 +29,12 @@ public class JavaQuestionService implements QuestionServices {
     }
 
     public Question add(String question, String answer) {
-        String formQuestion = formString(question);
-        String formAnswer = formString(answer);
         Optional<Question> first = (questions.stream()
-                .filter(o -> o.getQuestion().equalsIgnoreCase(formQuestion)).findAny());
+                .filter(o -> o.getQuestion().equalsIgnoreCase(question.trim())).findAny());
         if (first.isPresent()) {
             throw new ExceptionIfAvailable("Строка не введена, данный вопрос в списке присутствует:  " + first.get());
         }
-
-        return first.orElseGet(() -> add(new Question(questions.size() + 1, formQuestion, formAnswer)));
+        return first.orElseGet(() -> add(new Question(questions.size() + 1, question.trim(), answer.trim())));
     }
 
     public Question add(Question question) {
@@ -49,10 +47,8 @@ public class JavaQuestionService implements QuestionServices {
     }
 
     public Question remove(String question, String answer) {
-        String formQuestion = formString(question);
-        String formAnswer = formString(answer);
-        Optional<Question> first = Optional.ofNullable(((questions.stream().filter(o -> formQuestion
-                .equalsIgnoreCase(o.getQuestion()) && ((o.getAnswer().equalsIgnoreCase(formAnswer)))).findAny())
+        Optional<Question> first = Optional.ofNullable(((questions.stream().filter(o -> question.trim()
+                .equalsIgnoreCase(o.getQuestion()) && ((o.getAnswer().equalsIgnoreCase(answer.trim())))).findAny())
                 .orElseThrow(() -> new ExceptionIfAvailable("Такого вопроса в списке нет. Вопрос не удален "))));
         remove(first.get());
         return first.get();
@@ -77,11 +73,5 @@ public class JavaQuestionService implements QuestionServices {
 
     public int getSizeQuestions() {
         return questions.size();
-    }
-    public String formString(String line) {
-        StringBuilder stringBuilder = new StringBuilder(line);
-        stringBuilder.deleteCharAt(0);
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        return stringBuilder.toString().trim();
     }
 }

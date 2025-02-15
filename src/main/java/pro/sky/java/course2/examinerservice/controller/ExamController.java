@@ -20,9 +20,9 @@ public class ExamController {
     }
 
     @ExceptionHandler(ExceptionIfAvailable.class)
-    public ResponseEntity<String> noNunberQuestion
-            (ExceptionIfAvailable e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    public ResponseEntity<String> noNunberQuestion(ExceptionIfAvailable e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("HttpStatus= "+HttpStatus.BAD_REQUEST+".    "+e.getMessage());
     }
 
     @GetMapping("/exam/get/{amount}")
