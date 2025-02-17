@@ -29,10 +29,16 @@ public class JavaQuestionService implements QuestionServices {
     }
 
     public Question add(String question, String answer) {
+        if(question.isEmpty()){
+            throw new ExceptionIfAvailable("Пустая, строка повторите ввод вопроса!!!");
+        }
         Optional<Question> first = (questions.stream()
                 .filter(o -> o.getQuestion().equalsIgnoreCase(question.trim())).findAny());
         if (first.isPresent()) {
             throw new ExceptionIfAvailable("Строка не введена, данный вопрос в списке присутствует:  " + first.get());
+        }
+        if(answer.isEmpty()){
+            throw new ExceptionIfAvailable("Ответ на вопрос: "+question+" не введен повторите ввод");
         }
         return first.orElseGet(() -> add(new Question(questions.size() + 1, question.trim(), answer.trim())));
     }
