@@ -118,8 +118,6 @@ public class JavaQuestionServiceTest {
        assertTrue(optional.isEmpty());
     }
 
-
-
     private Set<Question> test() {
         Question[] questions = new Question[]{
                 new Question(1, "Из перечисленных ниже вариантов выберите тот, который лучше всего подходит под раскрытие аналогии переменной.", "Коробка. Ящик"),
