@@ -105,6 +105,7 @@ public class JavaQuestionServiceTest {
         String exceptedMessage = "Такого вопроса в списке нет. Вопрос не удален ";
         assertTrue(actualMessage.contains(exceptedMessage));
     }
+
     @Test
     void checkingRemovingQuestionFromTheListAndMakingTheMethodWork_getSize(){
         String textQuestion = "Вопрос";
