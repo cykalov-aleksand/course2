@@ -29,7 +29,7 @@ public class JavaQuestionService implements QuestionServices {
     }
 
     public Question add(String question, String answer) {
-        if(question.isEmpty()){
+        if (question.isEmpty()) {
             throw new ExceptionIfAvailable("Пустая, строка повторите ввод вопроса!!!");
         }
         Optional<Question> first = (questions.stream()
@@ -37,8 +37,8 @@ public class JavaQuestionService implements QuestionServices {
         if (first.isPresent()) {
             throw new ExceptionIfAvailable("Строка не введена, данный вопрос в списке присутствует:  " + first.get());
         }
-        if(answer.isEmpty()){
-            throw new ExceptionIfAvailable("Ответ на вопрос: "+question+" не введен повторите ввод");
+        if (answer.isEmpty()) {
+            throw new ExceptionIfAvailable("Ответ на вопрос: " + question + " не введен повторите ввод");
         }
         return first.orElseGet(() -> add(new Question(questions.size() + 1, question.trim(), answer.trim())));
     }
@@ -53,6 +53,9 @@ public class JavaQuestionService implements QuestionServices {
     }
 
     public Question remove(String question, String answer) {
+        if (getSizeQuestions() == 0) {
+            throw new ExceptionIfAvailable("Список вопросов пуст, сначала произведите ввод вопросов!!!");
+        }
         Optional<Question> first = Optional.ofNullable(((questions.stream().filter(o -> question.trim()
                 .equalsIgnoreCase(o.getQuestion()) && ((o.getAnswer().equalsIgnoreCase(answer.trim())))).findAny())
                 .orElseThrow(() -> new ExceptionIfAvailable("Такого вопроса в списке нет. Вопрос не удален "))));
