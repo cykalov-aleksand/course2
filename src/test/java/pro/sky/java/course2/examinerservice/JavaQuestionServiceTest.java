@@ -1,9 +1,7 @@
 package pro.sky.java.course2.examinerservice;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
@@ -14,14 +12,9 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 public class JavaQuestionServiceTest {
-
-    @Mock
-    Question question;
-    private Random randomMock;
 
     @Test
     void checkingTheOperationOfMethods_getAll_getSize_add_WithAnEmptyQuestionAdditionList() {
@@ -36,15 +29,16 @@ public class JavaQuestionServiceTest {
         assertEquals(textQuestion, javaQuestionService.getAll().iterator().next().getQuestion());
         assertEquals(1, javaQuestionService.getAll().iterator().next().getNumber());
     }
+
     @Test
-    void checkingTheDeletionOfAnObjectUsingTheRemoveMethod(){
+    void checkingTheDeletionOfAnObjectUsingTheRemoveMethod() {
         String textQuestion = "Вопрос вопрос";
         String textAnswer = "Ответ ответ";
         Set<Question> objectJavaQuestionService = new HashSet<>();
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
         int etalonSize = javaQuestionService.getSizeQuestions();
         javaQuestionService.remove(javaQuestionService.add(textQuestion, textAnswer));
-        assertEquals(etalonSize,javaQuestionService.getSizeQuestions());
+        assertEquals(etalonSize, javaQuestionService.getSizeQuestions());
     }//Проверка метода remove(question); (создали объект и тут же удалили
 
     @Test
@@ -72,8 +66,9 @@ public class JavaQuestionServiceTest {
         assertTrue(actualMessage.contains(exceptedMessage));
         assertEquals(etalonSize, javaQuestionService.getSizeQuestions());
     }
+
     @Test
-    void checkingHowTheMethodWorks_add_IfThereIsNoQuestionAndTheListIsFilledOut(){
+    void checkingHowTheMethodWorks_add_IfThereIsNoQuestionAndTheListIsFilledOut() {
         String textQuestion = "";
         String textAnswer = "Ответ ответ";
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
@@ -83,8 +78,9 @@ public class JavaQuestionServiceTest {
         String exceptedMessage = "Пустая, строка повторите ввод вопроса!!!";
         assertTrue(actualMessage.contains(exceptedMessage));
     }
+
     @Test
-    void checkingTheMethodsOperation_add_IfThereIsNoResponseAndTheListIsFilledOut(){
+    void checkingTheMethodsOperation_add_IfThereIsNoResponseAndTheListIsFilledOut() {
         String textQuestion = "Вопрос вопрос";
         String textAnswer = "";
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
@@ -94,8 +90,9 @@ public class JavaQuestionServiceTest {
         String exceptedMessage = "Ответ на вопрос: ";
         assertTrue(actualMessage.contains(exceptedMessage));
     }
+
     @Test
-    void deletingQuestionFromTheListInTheAbsenceOfOne(){
+    void deletingQuestionFromTheListInTheAbsenceOfOne() {
         String textQuestion = "Вопрос вопрос";
         String textAnswer = "Ответ";
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
@@ -107,19 +104,27 @@ public class JavaQuestionServiceTest {
     }
 
     @Test
-    void checkingRemovingQuestionFromTheListAndMakingTheMethodWork_getSize(){
+    void checkingRemovingQuestionFromTheListAndMakingTheMethodWork_getSize() {
         String textQuestion = "Вопрос";
         String textAnswer = "Ответ";
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
         int etalonSize = javaQuestionService.getSizeQuestions();
         javaQuestionService.remove(textQuestion, textAnswer);
-      Optional optional=(javaQuestionService.getAll().stream().filter(o -> o.getQuestion().equalsIgnoreCase(textQuestion.trim())).findAny());
-       assertEquals(etalonSize-1, javaQuestionService.getSizeQuestions());
-       assertTrue(optional.isEmpty());
+        Optional<Question> optional = (javaQuestionService.getAll().stream().filter(o -> o.getQuestion().equalsIgnoreCase(textQuestion.trim())).findAny());
+        assertEquals(etalonSize - 1, javaQuestionService.getSizeQuestions());
+        assertTrue(optional.isEmpty());
     }
 
-    private Set<Question> test() {
+    @Test
+    void theTestOfSelectingQuestionFromThe_Set_CollectionByPositionNumber() {
+        Set<Question> objectJavaQuestionService = new HashSet<>(test());
+        JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
+        String test=javaQuestionService.getRandomQuestion().getQuestion();
+        assertEquals(test().stream().filter(o->o.getQuestion().equals(test)).findAny().get().getQuestion(),test);
+    }
+
+   private Set<Question> test() {
         Question[] questions = new Question[]{
                 new Question(1, "Из перечисленных ниже вариантов выберите тот, который лучше всего подходит под раскрытие аналогии переменной.", "Коробка. Ящик"),
                 new Question(2, "Что такое переменная?", "Область в памяти компьютера для хранения данных, которой можно присвоить имя."),

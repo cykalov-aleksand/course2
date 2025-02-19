@@ -1,90 +1,47 @@
-package pro.sky.java.course2.examinerservice.service;
+package pro.sky.java.course2.examinerservice;
 
-import org.springframework.stereotype.Service;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
+import pro.sky.java.course2.examinerservice.service.ExaminerServicelmpl;
+import pro.sky.java.course2.examinerservice.service.JavaQuestionService;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 
-@Service
-public class JavaQuestionService implements QuestionServices {
-    private final Set<Question> questions;
+import static org.junit.jupiter.api.Assertions.*;
 
-    public JavaQuestionService(Set<Question> questions) {
-        this.questions = new HashSet<>(test());
-          }
+@ExtendWith(MockitoExtension.class)
+public class ExaminerServicelmplTest {
+    private ExaminerServicelmpl examinerServicelmpl;
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        JavaQuestionService that = (JavaQuestionService) object;
-        return Objects.equals(questions, that.questions);
+
+    @Test
+    void testingTheAbsenceOfDuplicateQuestions() {
+        Set<Question> objectJavaQuestionService = new HashSet<>(test());
+        JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
+        Set<Question> examiner;
+        examinerServicelmpl = new ExaminerServicelmpl(javaQuestionService);
+        examiner = new HashSet<>(examinerServicelmpl.getQuestions(javaQuestionService.getSizeQuestions()));
+        assertEquals(javaQuestionService.getSizeQuestions(), examiner.size());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(questions);
+    @Test
+    void testToCheckTheInputOfLargeNumberOfQuestions() {
+        Set<Question> objectJavaQuestionService = new HashSet<>(test());
+        JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
+        examinerServicelmpl = new ExaminerServicelmpl(javaQuestionService);
+        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> examinerServicelmpl.getQuestions(javaQuestionService.getSizeQuestions() + 1));
+        String actualMessage = exception.getMessage();
+        String exceptedMessage = "В хранилище нет такого количества вопросов. Повторите ввод.";
+        assertTrue(actualMessage.contains(exceptedMessage));
     }
 
-    public Question add(String question, String answer) {
-        if (question.isEmpty()) {
-            throw new ExceptionIfAvailable("Пустая, строка повторите ввод вопроса!!!");
-        }
-        Optional<Question> first = (questions.stream()
-                .filter(o -> o.getQuestion().equalsIgnoreCase(question.trim())).findAny());
-        if (first.isPresent()) {
-            throw new ExceptionIfAvailable("Строка не введена, данный вопрос в списке присутствует:  " + first.get());
-        }
-        if (answer.isEmpty()) {
-            throw new ExceptionIfAvailable("Ответ на вопрос: " + question + " не введен повторите ввод");
-        }
-        return first.orElseGet(() -> add(new Question(questions.size() + 1, question.trim(), answer.trim())));
-    }
-
-    public Question add(Question question) {
-        questions.add(question);
-        return question;
-    }
-
-    public void remove(Question question) {
-        questions.remove(question);
-    }
-
-    public Question remove(String question, String answer) {
-        if (getSizeQuestions() == 0) {
-            throw new ExceptionIfAvailable("Список вопросов пуст, сначала произведите ввод вопросов!!!");
-        }
-        Optional<Question> first = Optional.ofNullable(((questions.stream().filter(o -> question.trim()
-                .equalsIgnoreCase(o.getQuestion()) && ((o.getAnswer().equalsIgnoreCase(answer.trim())))).findAny())
-                .orElseThrow(() -> new ExceptionIfAvailable("Такого вопроса в списке нет. Вопрос не удален "))));
-        remove(first.get());
-        return first.get();
-    }
-
-    public Collection<Question> getAll() {
-        return questions.stream().collect(Collectors.toCollection(() -> new TreeSet<>(new NewComporator())));
-    }
-
-    public Question getRandomQuestion() {
-        int i = 0;
-        Random random=new Random();
-        int randomNumber = random.nextInt(questions.size());
-        for (Question variable : questions) {
-            if (i == randomNumber) {
-                return variable;
-            }
-            i++;
-        }
-        return null;
-    }
-
-    public int getSizeQuestions() {
-        return questions.size();
-    }
     private Set<Question> test() {
         Question[] questions = new Question[]{
                 new Question(1, "Из перечисленных ниже вариантов выберите тот, который лучше всего подходит под раскрытие аналогии переменной.", "Коробка. Ящик"),
