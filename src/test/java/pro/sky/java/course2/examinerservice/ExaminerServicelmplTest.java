@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ExaminerServicelmplTest {
     private ExaminerServicelmpl examinerServicelmpl;
 
-
     @Test
     void testingTheAbsenceOfDuplicateQuestions() {
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
@@ -36,7 +35,8 @@ public class ExaminerServicelmplTest {
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
         examinerServicelmpl = new ExaminerServicelmpl(javaQuestionService);
-        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> examinerServicelmpl.getQuestions(javaQuestionService.getSizeQuestions() + 1));
+        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> examinerServicelmpl
+                .getQuestions(javaQuestionService.getSizeQuestions() + 1));
         String actualMessage = exception.getMessage();
         String exceptedMessage = "В хранилище нет такого количества вопросов. Повторите ввод.";
         assertTrue(actualMessage.contains(exceptedMessage));

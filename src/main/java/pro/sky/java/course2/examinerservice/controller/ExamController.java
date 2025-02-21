@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
 import pro.sky.java.course2.examinerservice.service.ExaminerServicelmpl;
 
@@ -24,9 +25,8 @@ public class ExamController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("HttpStatus= "+HttpStatus.BAD_REQUEST+".    "+e.getMessage());
     }
-
     @GetMapping("/exam/get/{amount}")
-    public Collection getQuestions(@PathVariable("amount") int amount) {
+    public Collection<Question> getQuestions(@PathVariable("amount") int amount) {
         return examineServicelmpl.getQuestions(amount);
     }
 

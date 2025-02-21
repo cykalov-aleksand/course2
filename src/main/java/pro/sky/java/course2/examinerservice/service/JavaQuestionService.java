@@ -12,10 +12,12 @@ import static java.util.Arrays.stream;
 @Service
 public class JavaQuestionService implements QuestionServices {
     private final Set<Question> questions;
+    Random random;
 
     public JavaQuestionService(Set<Question> questions) {
-        this.questions = new HashSet<>(test());
-          }
+        this.questions = new HashSet<>(questions);
+        this.random = new Random();
+    }
 
     @Override
     public boolean equals(Object object) {
@@ -35,7 +37,7 @@ public class JavaQuestionService implements QuestionServices {
             throw new ExceptionIfAvailable("Пустая, строка повторите ввод вопроса!!!");
         }
         Optional<Question> first = (questions.stream()
-                .filter(o -> o.getQuestion().equalsIgnoreCase(question.trim())).findAny());
+                .filter(element -> element.getQuestion().equalsIgnoreCase(question.trim())).findAny());
         if (first.isPresent()) {
             throw new ExceptionIfAvailable("Строка не введена, данный вопрос в списке присутствует:  " + first.get());
         }
@@ -50,8 +52,12 @@ public class JavaQuestionService implements QuestionServices {
         return question;
     }
 
-    public void remove(Question question) {
-        questions.remove(question);
+    public Question remove(Question question) {
+        if (questions.remove(question)) {
+            return question;
+        } else {
+            throw new ExceptionIfAvailable("Объекта с таким вопросом нет");
+        }
     }
 
     public Question remove(String question, String answer) {
@@ -71,7 +77,6 @@ public class JavaQuestionService implements QuestionServices {
 
     public Question getRandomQuestion() {
         int i = 0;
-        Random random=new Random();
         int randomNumber = random.nextInt(questions.size());
         for (Question variable : questions) {
             if (i == randomNumber) {
@@ -85,6 +90,26 @@ public class JavaQuestionService implements QuestionServices {
     public int getSizeQuestions() {
         return questions.size();
     }
+
+    public Set<Question> addTest() {
+        questions.addAll(test());
+        return questions.stream().collect(Collectors.toCollection(() -> new TreeSet<>(new NewComporator())));
+    }
+
+    public String removeAll() {
+        questions.clear();
+        return ("Список класса JavaQuestionService пуст");
+    }
+
+    public Set<Question> removeTest() {
+        Set<Question> removeList = new HashSet<>();
+        for (Question variable : test()) {
+           Optional<Question> optional=questions.stream().filter(o->o.getQuestion().equals(variable.getQuestion())).findFirst();
+            optional.ifPresent(question -> removeList.add(remove(question)));
+            }
+                return removeList;
+    }
+
     private Set<Question> test() {
         Question[] questions = new Question[]{
                 new Question(1, "Из перечисленных ниже вариантов выберите тот, который лучше всего подходит под раскрытие аналогии переменной.", "Коробка. Ящик"),
@@ -107,5 +132,4 @@ public class JavaQuestionService implements QuestionServices {
         };
         return stream(questions).collect(Collectors.toSet());
     }
-
 }

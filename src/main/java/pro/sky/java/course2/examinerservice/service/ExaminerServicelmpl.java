@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public class ExaminerServicelmpl implements ExaminerService {
         this.questionServices = questionServices;
     }
 
-    public Set<Question> getQuestions(int amount) {
+    public Collection<Question> getQuestions(int amount) {
         if (amount > questionServices.getSizeQuestions()) {
             throw new ExceptionIfAvailable("В хранилище нет такого количества вопросов. Повторите ввод.");
         }

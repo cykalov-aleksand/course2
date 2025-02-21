@@ -1,11 +1,13 @@
 package pro.sky.java.course2.examinerservice;
 
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
 import pro.sky.java.course2.examinerservice.service.JavaQuestionService;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class JavaQuestionServiceTest {
+
 
     @Test
     void checkingTheOperationOfMethods_getAll_getSize_add_WithAnEmptyQuestionAdditionList() {
@@ -111,7 +114,8 @@ public class JavaQuestionServiceTest {
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
         int etalonSize = javaQuestionService.getSizeQuestions();
         javaQuestionService.remove(textQuestion, textAnswer);
-        Optional<Question> optional = (javaQuestionService.getAll().stream().filter(o -> o.getQuestion().equalsIgnoreCase(textQuestion.trim())).findAny());
+        Optional<Question> optional = (javaQuestionService.getAll().stream().filter(question -> question.getQuestion()
+                .equalsIgnoreCase(textQuestion.trim())).findAny());
         assertEquals(etalonSize - 1, javaQuestionService.getSizeQuestions());
         assertTrue(optional.isEmpty());
     }
@@ -120,8 +124,8 @@ public class JavaQuestionServiceTest {
     void theTestOfSelectingQuestionFromThe_Set_CollectionByPositionNumber() {
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
-        String test=javaQuestionService.getRandomQuestion().getQuestion();
-        assertEquals(test().stream().filter(o->o.getQuestion().equals(test)).findAny().get().getQuestion(),test);
+        String test = javaQuestionService.getRandomQuestion().getQuestion();
+        assertEquals(test().stream().filter(o -> o.getQuestion().equals(test)).findAny().get().getQuestion(), test);
     }
 
    private Set<Question> test() {

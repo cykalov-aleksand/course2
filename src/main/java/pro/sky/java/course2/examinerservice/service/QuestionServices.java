@@ -9,7 +9,7 @@ public interface QuestionServices {
 
     Question add(Question question);
 
-    void remove(Question question);
+    Question remove(Question question);
 
     Question remove(String question, String answer);
 
@@ -18,4 +18,5 @@ public interface QuestionServices {
     Question getRandomQuestion();
 
     int getSizeQuestions();
+
 }

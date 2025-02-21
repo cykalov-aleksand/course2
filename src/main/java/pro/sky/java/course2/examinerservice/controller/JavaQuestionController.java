@@ -8,6 +8,8 @@ import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
 import pro.sky.java.course2.examinerservice.service.JavaQuestionService;
 
 import java.util.Collection;
+import java.util.Set;
+
 
 @RestController
 @RequestMapping("/exam/java")
@@ -34,6 +36,21 @@ public class JavaQuestionController {
         return javaQuestionService.add(question, answer);
     }
 
+    @GetMapping(path = "/addtest")
+    public Collection<Question> addTest() {
+        return javaQuestionService.addTest();
+    }
+
+    @GetMapping(path = "/removetest")
+    public Set<Question> removeTest() {
+        return javaQuestionService.removeTest();
+    }
+
+    @GetMapping(path = "/removeall")
+    public String removeAll() {
+        return javaQuestionService.removeAll();
+    }
+
     @GetMapping
     public Collection<Question> getAll() {
         return javaQuestionService.getAll();
@@ -43,5 +60,4 @@ public class JavaQuestionController {
     public Question getRandomQuestion() {
         return javaQuestionService.getRandomQuestion();
     }
-
 }
