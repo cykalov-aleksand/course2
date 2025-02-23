@@ -114,7 +114,7 @@ public class JavaQuestionServiceTest {
 
     @Test
     void checkingRemovingQuestionFromTheListAndMakingTheMethodWork_getSize() {
-        String textQuestion = "Вопрос";
+        String textQuestion ="Вопрос";
         String textAnswer = "Ответ";
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
