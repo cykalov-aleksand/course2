@@ -1,5 +1,6 @@
 package pro.sky.java.course2.examinerservice.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
@@ -14,9 +15,17 @@ public class JavaQuestionService implements QuestionServices {
     private final Set<Question> questions;
     Random random;
 
+    @Autowired
     public JavaQuestionService(Set<Question> questions) {
         this.questions = new HashSet<>(questions);
         this.random = new Random();
+
+    }
+
+    public JavaQuestionService(Set<Question> questions, Random random) {
+        this.questions = new HashSet<>(questions);
+        this.random = random;
+
     }
 
     @Override
@@ -77,6 +86,7 @@ public class JavaQuestionService implements QuestionServices {
 
     public Question getRandomQuestion() {
         int i = 0;
+
         int randomNumber = random.nextInt(questions.size());
         for (Question variable : questions) {
             if (i == randomNumber) {
@@ -104,10 +114,10 @@ public class JavaQuestionService implements QuestionServices {
     public Set<Question> removeTest() {
         Set<Question> removeList = new HashSet<>();
         for (Question variable : test()) {
-           Optional<Question> optional=questions.stream().filter(o->o.getQuestion().equals(variable.getQuestion())).findFirst();
+            Optional<Question> optional = questions.stream().filter(o -> o.getQuestion().equals(variable.getQuestion())).findFirst();
             optional.ifPresent(question -> removeList.add(remove(question)));
-            }
-                return removeList;
+        }
+        return removeList;
     }
 
     private Set<Question> test() {

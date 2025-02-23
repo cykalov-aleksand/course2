@@ -14,10 +14,11 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class JavaQuestionServiceTest {
-
+    private Random randomMock;
 
     @Test
     void checkingTheOperationOfMethods_getAll_getSize_add_WithAnEmptyQuestionAdditionList() {
@@ -121,14 +122,26 @@ public class JavaQuestionServiceTest {
     }
 
     @Test
-    void theTestOfSelectingQuestionFromThe_Set_CollectionByPositionNumber() {
+    void TestToSelectQuestionFromThe_Set_collectionAtPosition0() {
+        randomMock = mock(Random.class);
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
-        JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
+        JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService, randomMock);
+        when(randomMock.nextInt(javaQuestionService.getSizeQuestions())).thenReturn(0);
         String test = javaQuestionService.getRandomQuestion().getQuestion();
         assertEquals(test().stream().filter(o -> o.getQuestion().equals(test)).findAny().get().getQuestion(), test);
     }
 
-   private Set<Question> test() {
+    @Test
+    void TestToSelectQuestionFromThe_Set_collectionAtPositionMax() {
+        randomMock = mock(Random.class);
+        Set<Question> objectJavaQuestionService = new HashSet<>(test());
+        JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService, randomMock);
+        when(randomMock.nextInt(javaQuestionService.getSizeQuestions())).thenReturn(javaQuestionService.getSizeQuestions() - 1);
+        String test = javaQuestionService.getRandomQuestion().getQuestion();
+        assertEquals(test().stream().filter(o -> o.getQuestion().equals(test)).findAny().get().getQuestion(), test);
+    }
+
+    private Set<Question> test() {
         Question[] questions = new Question[]{
                 new Question(1, "Из перечисленных ниже вариантов выберите тот, который лучше всего подходит под раскрытие аналогии переменной.", "Коробка. Ящик"),
                 new Question(2, "Что такое переменная?", "Область в памяти компьютера для хранения данных, которой можно присвоить имя."),
