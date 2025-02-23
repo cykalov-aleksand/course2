@@ -51,7 +51,8 @@ public class JavaQuestionServiceTest {
         String textAnswer = "Ответ";
         Set<Question> objectJavaQuestionService = new HashSet<>();
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
-        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> javaQuestionService.remove(textQuestion, textAnswer));
+        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> javaQuestionService
+                .remove(textQuestion, textAnswer));
         String actualMessage = exception.getMessage();
         String exceptedMessage = "Список вопросов пуст, сначала произведите ввод вопросов!!!";
         assertTrue(actualMessage.contains(exceptedMessage));
@@ -64,7 +65,8 @@ public class JavaQuestionServiceTest {
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
         int etalonSize = javaQuestionService.getSizeQuestions();
-        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> javaQuestionService.add(textQuestion, textAnswer));
+        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> javaQuestionService
+                .add(textQuestion, textAnswer));
         String actualMessage = exception.getMessage();
         String exceptedMessage = "Строка не введена, данный вопрос в списке присутствует:  ";
         assertTrue(actualMessage.contains(exceptedMessage));
@@ -77,7 +79,8 @@ public class JavaQuestionServiceTest {
         String textAnswer = "Ответ ответ";
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
-        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> javaQuestionService.add(textQuestion, textAnswer));
+        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> javaQuestionService
+                .add(textQuestion, textAnswer));
         String actualMessage = exception.getMessage();
         String exceptedMessage = "Пустая, строка повторите ввод вопроса!!!";
         assertTrue(actualMessage.contains(exceptedMessage));
@@ -89,7 +92,8 @@ public class JavaQuestionServiceTest {
         String textAnswer = "";
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
-        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> javaQuestionService.add(textQuestion, textAnswer));
+        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> javaQuestionService
+                .add(textQuestion, textAnswer));
         String actualMessage = exception.getMessage();
         String exceptedMessage = "Ответ на вопрос: ";
         assertTrue(actualMessage.contains(exceptedMessage));
@@ -101,7 +105,8 @@ public class JavaQuestionServiceTest {
         String textAnswer = "Ответ";
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
-        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> javaQuestionService.remove(textQuestion, textAnswer));
+        Exception exception = assertThrows(ExceptionIfAvailable.class, () -> javaQuestionService
+                .remove(textQuestion, textAnswer));
         String actualMessage = exception.getMessage();
         String exceptedMessage = "Такого вопроса в списке нет. Вопрос не удален ";
         assertTrue(actualMessage.contains(exceptedMessage));
@@ -128,7 +133,8 @@ public class JavaQuestionServiceTest {
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService, randomMock);
         when(randomMock.nextInt(javaQuestionService.getSizeQuestions())).thenReturn(0);
         String test = javaQuestionService.getRandomQuestion().getQuestion();
-        assertEquals(test().stream().filter(o -> o.getQuestion().equals(test)).findAny().get().getQuestion(), test);
+        assertEquals(test().stream().filter(element -> element.getQuestion().equals(test)).findAny()
+                .get().getQuestion(), test);
     }
 
     @Test
@@ -136,9 +142,11 @@ public class JavaQuestionServiceTest {
         randomMock = mock(Random.class);
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService, randomMock);
-        when(randomMock.nextInt(javaQuestionService.getSizeQuestions())).thenReturn(javaQuestionService.getSizeQuestions() - 1);
+        when(randomMock.nextInt(javaQuestionService.getSizeQuestions()))
+                .thenReturn(javaQuestionService.getSizeQuestions() - 1);
         String test = javaQuestionService.getRandomQuestion().getQuestion();
-        assertEquals(test().stream().filter(o -> o.getQuestion().equals(test)).findAny().get().getQuestion(), test);
+        assertEquals(test().stream().filter(element -> element.getQuestion()
+                .equals(test)).findAny().get().getQuestion(), test);
     }
 
     private Set<Question> test() {

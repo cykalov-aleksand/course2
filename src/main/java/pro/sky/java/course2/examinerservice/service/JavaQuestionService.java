@@ -86,7 +86,6 @@ public class JavaQuestionService implements QuestionServices {
 
     public Question getRandomQuestion() {
         int i = 0;
-
         int randomNumber = random.nextInt(questions.size());
         for (Question variable : questions) {
             if (i == randomNumber) {
