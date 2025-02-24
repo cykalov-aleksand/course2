@@ -20,10 +20,8 @@ public class JavaQuestionService implements QuestionServices {
 
     }
 
-    public JavaQuestionService(Set<Question> questions, Random random) {
-        this.questions = new HashSet<>(questions);
+    public void setRandom(Random random) {
         this.random = random;
-
     }
 
     public Question add(String question, String answer) {

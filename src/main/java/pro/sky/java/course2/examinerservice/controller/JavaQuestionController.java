@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
 import pro.sky.java.course2.examinerservice.service.JavaQuestionService;
-import pro.sky.java.course2.examinerservice.service.TestPageJavaQuestions;
+import pro.sky.java.course2.examinerservice.service.integrationtest.TestPageJavaQuestions;
 
 import java.util.Collection;
 import java.util.Set;

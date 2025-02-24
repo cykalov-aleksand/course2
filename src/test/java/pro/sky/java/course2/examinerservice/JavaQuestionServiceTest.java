@@ -114,7 +114,7 @@ public class JavaQuestionServiceTest {
 
     @Test
     void checkingRemovingQuestionFromTheListAndMakingTheMethodWork_getSize() {
-        String textQuestion ="Вопрос";
+        String textQuestion = "Вопрос";
         String textAnswer = "Ответ";
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
         JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
@@ -130,7 +130,8 @@ public class JavaQuestionServiceTest {
     void TestToSelectQuestionFromThe_Set_collectionAtPosition0() {
         randomMock = mock(Random.class);
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
-        JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService, randomMock);
+        JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
+        javaQuestionService.setRandom(randomMock);
         when(randomMock.nextInt(javaQuestionService.getSizeQuestions())).thenReturn(0);
         String test = javaQuestionService.getRandomQuestion().getQuestion();
         assertEquals(test().stream().filter(element -> element.getQuestion().equals(test)).findAny()
@@ -141,7 +142,8 @@ public class JavaQuestionServiceTest {
     void TestToSelectQuestionFromThe_Set_collectionAtPositionMax() {
         randomMock = mock(Random.class);
         Set<Question> objectJavaQuestionService = new HashSet<>(test());
-        JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService, randomMock);
+        JavaQuestionService javaQuestionService = new JavaQuestionService(objectJavaQuestionService);
+        javaQuestionService.setRandom(randomMock);
         when(randomMock.nextInt(javaQuestionService.getSizeQuestions()))
                 .thenReturn(javaQuestionService.getSizeQuestions() - 1);
         String test = javaQuestionService.getRandomQuestion().getQuestion();

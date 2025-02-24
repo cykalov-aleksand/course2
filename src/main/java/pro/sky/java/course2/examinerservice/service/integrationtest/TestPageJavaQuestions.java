@@ -1,7 +1,9 @@
-package pro.sky.java.course2.examinerservice.service;
+package pro.sky.java.course2.examinerservice.service.integrationtest;
 
 import org.springframework.stereotype.Component;
 import pro.sky.java.course2.examinerservice.domain.Question;
+import pro.sky.java.course2.examinerservice.service.JavaQuestionService;
+import pro.sky.java.course2.examinerservice.service.NewComporator;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -14,7 +16,7 @@ import static java.util.Arrays.stream;
 @Component
 public class TestPageJavaQuestions {
     private final Set<Question> questions;
-    private final JavaQuestionService javaQuestionService;
+private final JavaQuestionService javaQuestionService;
 
     public TestPageJavaQuestions(Set<Question> questions, JavaQuestionService javaQuestionService) {
         this.questions = questions;
@@ -23,21 +25,20 @@ public class TestPageJavaQuestions {
 
     public Set<Question> addTest() {
         questions.addAll(test());
-        for (Question variable : questions) {
+        for(Question variable:questions){
             javaQuestionService.add(variable);
         }
         return questions.stream().collect(Collectors.toCollection(() -> new TreeSet<>(new NewComporator())));
     }
 
-    public Set<Question> removeTest() {
-        Set<Question> removeList = new HashSet<>();
-        for (Question variable : test()) {
-            Optional<Question> optional = questions.stream().filter(element -> element
-                    .getQuestion().equals(variable.getQuestion())).findFirst();
-            optional.ifPresent(question -> removeList.add(javaQuestionService.remove(question)));
-        }
-        return removeList;
-    }
+          public Set<Question> removeTest() {
+            Set<Question> removeList = new HashSet<>();
+            for (Question variable : test()) {
+                Optional<Question> optional = questions.stream().filter(o -> o.getQuestion().equals(variable.getQuestion())).findFirst();
+                optional.ifPresent(question -> removeList.add(javaQuestionService.remove(question)));
+            }
+            return removeList;
+                    }
 
 
     private Set<Question> test() {
