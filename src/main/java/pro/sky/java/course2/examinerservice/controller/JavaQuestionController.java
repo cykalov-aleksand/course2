@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exeption.ExceptionIfAvailable;
 import pro.sky.java.course2.examinerservice.service.JavaQuestionService;
+import pro.sky.java.course2.examinerservice.service.TestPageJavaQuestions;
 
 import java.util.Collection;
 import java.util.Set;
@@ -15,9 +16,11 @@ import java.util.Set;
 @RequestMapping("/exam/java")
 public class JavaQuestionController {
     private final JavaQuestionService javaQuestionService;
+    private final TestPageJavaQuestions testJavaQuestions;
 
-    public JavaQuestionController(JavaQuestionService javaQuestionService) {
+    public JavaQuestionController(JavaQuestionService javaQuestionService, TestPageJavaQuestions testJavaQuestions) {
         this.javaQuestionService = javaQuestionService;
+        this.testJavaQuestions = testJavaQuestions;
     }
 
     @ExceptionHandler(ExceptionIfAvailable.class)
@@ -36,21 +39,6 @@ public class JavaQuestionController {
         return javaQuestionService.add(question, answer);
     }
 
-    @GetMapping(path = "/addtest")
-    public Collection<Question> addTest() {
-        return javaQuestionService.addTest();
-    }
-
-    @GetMapping(path = "/removetest")
-    public Set<Question> removeTest() {
-        return javaQuestionService.removeTest();
-    }
-
-    @GetMapping(path = "/removeall")
-    public String removeAll() {
-        return javaQuestionService.removeAll();
-    }
-
     @GetMapping
     public Collection<Question> getAll() {
         return javaQuestionService.getAll();
@@ -59,5 +47,15 @@ public class JavaQuestionController {
     @GetMapping(path = "/getRandomQuestion")
     public Question getRandomQuestion() {
         return javaQuestionService.getRandomQuestion();
+    }
+
+    @GetMapping(path = "/addTest")
+    public Collection<Question> addTest() {
+        return testJavaQuestions.addTest();
+    }
+
+    @GetMapping(path = "/removeTest")
+    public Set<Question> removeTest() {
+        return testJavaQuestions.removeTest();
     }
 }
